@@ -823,7 +823,7 @@ export default Vue.extend({
         .then(v => this.readLists = v)
 
       if (this.$_.has(this.book, 'metadata.title')) {
-        document.title = `Komga - ${getBookTitleCompact(this.book.metadata.title, this.book.seriesTitle)}`
+        document.title = `BaxterVerse - ${getBookTitleCompact(this.book.metadata.title, this.book.seriesTitle)}`
       }
 
       if (this?.context.origin === ContextOrigin.READLIST) {
