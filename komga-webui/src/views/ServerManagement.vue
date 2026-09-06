@@ -69,7 +69,7 @@ export default Vue.extend({
     downloadLogFile() {
       new jsFileDownloader({
         url: `${urls.originNoSlash}${this.$actuator.logfileUrl()}`,
-        filename: 'komga.log',
+        filename: 'BaxterVerse.log',
         withCredentials: true,
         forceDesktopMode: true,
       })

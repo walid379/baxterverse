@@ -1,10 +1,10 @@
 {
-  "name": "Komga",
-  "short_name": "Komga",
+  "name": "BaxterVerse",
+  "short_name": "BaxterVerse",
   "start_url": ".",
   "display": "standalone",
   "background_color": "#08397f",
-  "theme_color": "black",
+  "theme_color": "blue",
   "description": "Free and open source comics/mangas media server",
   "icons": [{
     "src": "favicon-32x32.png",
