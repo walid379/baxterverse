@@ -267,6 +267,11 @@ const router = new Router({
           beforeEnter: adminGuard,
           component: () => import(/* webpackChunkName: "import-readlist" */ './views/ImportReadList.vue'),
         },
+        {
+          path: '/reading-guide',
+          name: 'readinguide',
+          component: () => import('./views/ReadingGuide.vue'),
+        },
       ],
     },
     {
