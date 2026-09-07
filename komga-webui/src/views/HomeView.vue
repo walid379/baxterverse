@@ -133,6 +133,16 @@
             </v-list-item>
           </v-list-group>
 
+          <v-list-item :to="{name: 'readinguide'}">
+            <v-list-item-icon>
+              <v-icon>mdi-timeline-text-outline</v-icon>
+            </v-list-item-icon>
+
+            <v-list-item-content>
+              <v-list-item-title>Reading Guide</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+
           <!--   IMPORT     -->
           <v-list-group v-if="isAdmin"
                         prepend-icon="mdi-import"
