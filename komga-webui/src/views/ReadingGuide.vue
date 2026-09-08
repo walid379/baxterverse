@@ -9,11 +9,11 @@
 
       <div>
         <h1 class="text-h4 font-weight-bold">
-          Reading Guide
+          {{ $t('readinguide.title') }}
         </h1>
 
         <div class="text-subtitle-1 text--secondary">
-          Crée et organise tes propres guides de lecture.
+          {{ $t('readinguide.subtitle') }}
         </div>
       </div>
     </div>
@@ -41,12 +41,7 @@
           </v-icon>
 
           <div class="text-h5 font-weight-medium mb-2">
-            Aucun guide de lecture
-          </div>
-
-          <div class="text-body-1 text--secondary mb-6">
-            Les guides de lecture te permettront d'organiser
-            plusieurs séries et comics dans un ordre précis.
+            {{ $t('readinguide.empty') }}
           </div>
 
           <v-btn
@@ -58,11 +53,11 @@
               mdi-plus
             </v-icon>
 
-            Créer un guide
+            {{ $t('readinguide.create') }}
           </v-btn>
 
           <div class="text-caption text--secondary mt-3">
-            Fonctionnalité bientôt disponible
+            {{ $t('readinguide.soon') }}
           </div>
         </v-card>
       </v-col>

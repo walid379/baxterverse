@@ -1088,5 +1088,12 @@
     "add_library": "Ajouter une bibliothèque",
     "no_libraries_yet": "Aucune bibliothèque n'a encore été ajoutée !",
     "welcome_message": "Bienvenue sur BaxterVerse"
+  },
+  "readinguide":{
+    "title": "Guide de lecture",
+    "subtitle": "Les meilleures routes de lecture des plus grand évenements comics.",
+    "empty": "Aucun guide disponible.",
+    "create": "Créer un guide de lecture",
+    "soon": "Disponible prochainement."
   }
 }
