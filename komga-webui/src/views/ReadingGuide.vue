@@ -20,27 +20,7 @@
 
     <v-divider class="mb-6"/>
 
-    <!-- EMPTY STATE -->
-    <v-row justify="center">
-      <v-col
-        cols="12"
-        sm="10"
-        md="8"
-        lg="6"
-      >
-        <v-card
-          outlined
-          class="pa-8 text-center"
-        >
-          <v-icon
-            size="72"
-            color="primary"
-            class="mb-4"
-          >
-            mdi-book-open-page-variant-outline
-          </v-icon>
-
-          <v-card
+    <v-card
             v-for="timeline in timelines"
             :key="timeline.id"
             class="mb-6"
@@ -72,13 +52,6 @@
               </v-list>
             </v-card-text>
           </v-card>
-
-          <!-- <div class="text-caption text--secondary mt-3">
-            {{ $t('readinguide.soon') }}
-          </div> -->
-        </v-card>
-      </v-col>
-    </v-row>
 
   </v-container>
 </template>
