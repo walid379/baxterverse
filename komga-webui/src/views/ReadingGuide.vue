@@ -40,25 +40,42 @@
             mdi-book-open-page-variant-outline
           </v-icon>
 
-          <div class="text-h5 font-weight-medium mb-2">
-            {{ $t('readinguide.empty') }}
-          </div>
-
-          <v-btn
-            color="primary"
-            large
-            disabled
+          <v-card
+            v-for="timeline in timelines"
+            :key="timeline.id"
+            class="mb-6"
           >
-            <v-icon left>
-              mdi-plus
-            </v-icon>
+            <v-card-title>
+              {{ timeline.name }}
+            </v-card-title>
 
-            {{ $t('readinguide.create') }}
-          </v-btn>
+            <v-card-subtitle>
+              {{ timeline.description }}
+            </v-card-subtitle>
 
-          <div class="text-caption text--secondary mt-3">
+            <v-card-text>
+              <v-list>
+                <v-list-item
+                  v-for="(entry, index) in timeline.entries"
+                  :key="`${timeline.id}-${index}`"
+                >
+                  <v-list-item-icon>
+                    <span>{{ index + 1 }}</span>
+                  </v-list-item-icon>
+
+                  <v-list-item-content>
+                    <v-list-item-title>
+                      {{ entry.series }} #{{ entry.number }}
+                    </v-list-item-title>
+                  </v-list-item-content>
+                </v-list-item>
+              </v-list>
+            </v-card-text>
+          </v-card>
+
+          <!-- <div class="text-caption text--secondary mt-3">
             {{ $t('readinguide.soon') }}
-          </div>
+          </div> -->
         </v-card>
       </v-col>
     </v-row>
@@ -71,8 +88,62 @@ import Vue from 'vue'
 
 export default Vue.extend({
   name: 'ReadingGuide',
+  data() {
+    return {
+      timelines: [
+        {
+          id: 'secret-wars-1984',
+          name: 'Secret Wars',
+          description: 'Ordre de lecture Secret Wars 1984',
+          entries: [
+            {
+              series: 'Fantastic Four',
+              number: '180',
+            },
+            {
+              series: 'Amazing Spider-Man',
+              number: '249',
+            },
+            {
+              series: 'Secret Wars',
+              number: '1',
+            },
+            {
+              series: 'Secret Wars',
+              number: '2',
+            },
+            {
+              series: 'Fantastic Four',
+              number: '265',
+            },
+          ],
+        },
+
+        {
+          id: 'civil-war',
+          name: 'Civil War',
+          description: 'Ordre de lecture Civil War',
+          entries: [
+            {
+              series: 'Civil War',
+              number: '1',
+            },
+            {
+              series: 'Amazing Spider-Man',
+              number: '532',
+            },
+            {
+              series: 'Civil War',
+              number: '2',
+            },
+          ],
+        },
+      ],
+    }
+  }
 })
 </script>
 
 <style scoped>
 </style>
+
