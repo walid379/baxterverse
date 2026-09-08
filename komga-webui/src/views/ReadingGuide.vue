@@ -66,28 +66,100 @@ export default Vue.extend({
       timelines: [
         {
           id: 'secret-wars-1984',
-          name: 'Secret Wars',
+          name: 'Secret Wars 1984',
           description: 'Ordre de lecture Secret Wars 1984',
           entries: [
             {
-              series: 'Fantastic Four',
+              series: 'Amazing Spider-Man',
+              number: '251',
+            },
+            {
+              series: 'Avengers',
+              number: '242',
+            },
+            {
+              series: 'Incredible Hulk',
+              number: '294',
+            },
+            {
+              series: 'Uncanny X-Men',
               number: '180',
             },
             {
-              series: 'Amazing Spider-Man',
-              number: '249',
+              series: 'The Thing',
+              number: '10',
             },
             {
-              series: 'Secret Wars',
+              series: 'Secret Wars (1984)',
               number: '1',
             },
             {
-              series: 'Secret Wars',
+              series: 'Secret Wars (1984)',
               number: '2',
+            },
+            {
+              series: 'Secret Wars (1984)',
+              number: '3',
+            },
+            {
+              series: 'Secret Wars (1984)',
+              number: '4',
+            },
+            {
+              series: 'Secret Wars (1984)',
+              number: '5',
+            },
+            {
+              series: 'Secret Wars (1984)',
+              number: '6',
+            },
+            {
+              series: 'Secret Wars (1984)',
+              number: '7',
+            },
+            {
+              series: 'Secret Wars (1984)',
+              number: '8',
+            },
+            {
+              series: 'Secret Wars (1984)',
+              number: '9',
+            },
+            {
+              series: 'Secret Wars (1984)',
+              number: '10',
+            },
+            {
+              series: 'Secret Wars (1984)',
+              number: '11',
+            },
+            {
+              series: 'Secret Wars (1984)',
+              number: '12',
+            },
+            {
+              series: 'Amazing Spider-Man',
+              number: '252',
+            },
+            {
+              series: 'Avengers',
+              number: '243',
             },
             {
               series: 'Fantastic Four',
               number: '265',
+            },
+            {
+              series: 'Incredible Hulk',
+              number: '295',
+            },
+            {
+              series: 'Uncanny X-Men',
+              number: '181',
+            },
+            {
+              series: 'The Thing',
+              number: '11',
             },
           ],
         },
@@ -98,16 +170,8 @@ export default Vue.extend({
           description: 'Ordre de lecture Civil War',
           entries: [
             {
-              series: 'Civil War',
-              number: '1',
-            },
-            {
-              series: 'Amazing Spider-Man',
-              number: '532',
-            },
-            {
-              series: 'Civil War',
-              number: '2',
+              series: '',
+              number: '',
             },
           ],
         },
