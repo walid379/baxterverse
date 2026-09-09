@@ -51,70 +51,6 @@
       </v-col>
     </v-row>
 
-    <!-- <v-row>
-      <v-col
-        v-for="timeline in timelines"
-        :key="timeline.id"
-        cols="12"
-        sm="6"
-        md="4"
-      >
-        <v-card
-          class="timeline-card"
-          outlined
-          @click="openTimeline(timeline)"
-        >
-          <v-img
-            :src="timeline.image"
-            height="200"
-            contain
-            class="timeline-image"
-          />
-
-          <v-card-title>
-            {{ timeline.name }}
-          </v-card-title>
-
-          <v-card-subtitle>
-            {{ timeline.description }}
-          </v-card-subtitle>
-        </v-card>
-      </v-col>
-    </v-row> -->
-
-    <!-- <v-card
-      v-for="timeline in timelines"
-      :key="timeline.id"
-      class="mb-6"
-    >
-      <v-card-title>
-        {{ timeline.name }}
-      </v-card-title>
-
-      <v-card-subtitle>
-        {{ timeline.description }}
-      </v-card-subtitle>
-
-      <v-card-text>
-        <v-list>
-          <v-list-item
-            v-for="(entry, index) in timeline.entries"
-            :key="`${timeline.id}-${index}`"
-          >
-            <v-list-item-icon>
-              <span>{{ index + 1 }}</span>
-            </v-list-item-icon>
-
-            <v-list-item-content>
-              <v-list-item-title>
-                {{ entry.series }} #{{ entry.number }}
-              </v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </v-list>
-      </v-card-text>
-    </v-card> -->
-
   </v-container>
 </template>
 
@@ -267,7 +203,7 @@ export default Vue.extend({
           id: 'civil-war',
           name: 'Civil War',
           description: 'Ordre de lecture Civil War',
-          // image: '/reading-guides/civil-war.jpg',
+          image: '/reading-guides/civil-war.jpg',
           entries: [
             {
               series: 'Civil War',
