@@ -22,6 +22,25 @@ jobs:
         env:
           NODE_OPTIONS: "--max-old-space-size=4096"
 
+      - name: Check WebUI assets
+        shell: bash
+        run: |
+          echo "=== WEBUI READING GUIDES ==="
+          find komga-webui/dist -type f | grep 'reading-guides' || true
+
+          echo
+          echo "=== WEBUI FAVICONS ==="
+          find komga-webui/dist -type f | grep 'favicon' || true
+
+          echo
+          echo "=== CHECK CIVIL WAR IMAGE ==="
+          if [ -f "komga-webui/dist/reading-guides/civil-war.jpg" ]; then
+            echo "OK: civil-war.jpg present in WebUI dist"
+            ls -lh "komga-webui/dist/reading-guides/civil-war.jpg"
+          else
+            echo "ERROR: civil-war.jpg missing from WebUI dist"
+          fi
+
       - name: NextUI - setup
         uses: ./.github/actions/setup-web
         with:
@@ -30,6 +49,12 @@ jobs:
       - name: NextUI - build
         working-directory: next-ui
         run: npm run build:with-i18n
+
+      - name: Check NextUI favicons
+        shell: bash
+        run: |
+          echo "=== NEXTUI FAVICONS ==="
+          find next-ui/dist -type f | grep 'favicon' || true
 
       - name: Java 21
         uses: actions/setup-java@v4
@@ -43,24 +68,55 @@ jobs:
       - name: Build JAR
         run: ./gradlew :komga:webuiCopyIndex :komga:nextuiCopyIndex :komga:bootJar
 
+      - name: Check final public resources
+        shell: bash
+        run: |
+          echo "=== FINAL READING GUIDES ==="
+          find komga/src/main/resources/public -type f | grep 'reading-guides' || true
+
+          echo
+          echo "=== FINAL FAVICONS ==="
+          find komga/src/main/resources/public -type f | grep 'favicon' || true
+
+          echo
+          echo "=== CHECK FINAL CIVIL WAR IMAGE ==="
+          if [ -f "komga/src/main/resources/public/reading-guides/civil-war.jpg" ]; then
+            echo "OK: civil-war.jpg present in final resources"
+            ls -lh "komga/src/main/resources/public/reading-guides/civil-war.jpg"
+          else
+            echo "ERROR: civil-war.jpg missing from final resources"
+          fi
+
       - name: Prepare BaxterVerse JAR
         shell: bash
         run: |
           mkdir -p artifact
 
-          JAR="$(find komga/build/libs -maxdepth 1 \
-            -type f \
-            -name 'komga-*.jar' \
-            ! -name '*-sources.jar' \
-            ! -name '*-javadoc.jar' \
-            ! -name '*-plain.jar' \
-            | head -n 1)"
+          JAR="$(find komga/build/libs -maxdepth 1             -type f             -name 'komga-*.jar'             ! -name '*-sources.jar'             ! -name '*-javadoc.jar'             ! -name '*-plain.jar'             | head -n 1)"
 
           test -n "$JAR"
 
           cp "$JAR" artifact/BaxterVerse.jar
 
           ls -lh artifact/BaxterVerse.jar
+
+      - name: Check assets inside BaxterVerse JAR
+        shell: bash
+        run: |
+          echo "=== READING GUIDES INSIDE JAR ==="
+          jar tf artifact/BaxterVerse.jar | grep 'reading-guides' || true
+
+          echo
+          echo "=== FAVICONS INSIDE JAR ==="
+          jar tf artifact/BaxterVerse.jar | grep 'favicon' || true
+
+          echo
+          echo "=== CIVIL WAR IMAGE INSIDE JAR ==="
+          if jar tf artifact/BaxterVerse.jar | grep -q 'reading-guides/civil-war.jpg'; then
+            echo "OK: civil-war.jpg is inside BaxterVerse.jar"
+          else
+            echo "ERROR: civil-war.jpg is NOT inside BaxterVerse.jar"
+          fi
 
       - name: Upload BaxterVerse JAR
         uses: actions/upload-artifact@v4
