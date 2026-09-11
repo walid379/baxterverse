@@ -187,7 +187,7 @@ export default Vue.extend({
               number: '1',
             },
           ],
-        }
+        },
       ],
     }
   },
