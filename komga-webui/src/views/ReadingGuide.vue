@@ -59,142 +59,106 @@ import Vue from 'vue'
 
 export default Vue.extend({
   name: 'ReadingGuide',
-  // data() {
-  //   return {
-  //     timelines: [
-  //       {
-  //         id: 'secret-wars-1984',
-  //         name: 'Secret Wars 1984',
-  //         description: 'Ordre de lecture Secret Wars 1984',
-  //         entries: [
-  //           {
-  //             series: 'Amazing Spider-Man',
-  //             number: '251',
-  //           },
-  //           {
-  //             series: 'Avengers',
-  //             number: '242',
-  //           },
-  //           {
-  //             series: 'Incredible Hulk',
-  //             number: '294',
-  //           },
-  //           {
-  //             series: 'Uncanny X-Men',
-  //             number: '180',
-  //           },
-  //           {
-  //             series: 'The Thing',
-  //             number: '10',
-  //           },
-  //           {
-  //             series: 'Secret Wars (1984)',
-  //             number: '1',
-  //           },
-  //           {
-  //             series: 'Secret Wars (1984)',
-  //             number: '2',
-  //           },
-  //           {
-  //             series: 'Secret Wars (1984)',
-  //             number: '3',
-  //           },
-  //           {
-  //             series: 'Secret Wars (1984)',
-  //             number: '4',
-  //           },
-  //           {
-  //             series: 'Secret Wars (1984)',
-  //             number: '5',
-  //           },
-  //           {
-  //             series: 'Secret Wars (1984)',
-  //             number: '6',
-  //           },
-  //           {
-  //             series: 'Secret Wars (1984)',
-  //             number: '7',
-  //           },
-  //           {
-  //             series: 'Secret Wars (1984)',
-  //             number: '8',
-  //           },
-  //           {
-  //             series: 'Secret Wars (1984)',
-  //             number: '9',
-  //           },
-  //           {
-  //             series: 'Secret Wars (1984)',
-  //             number: '10',
-  //           },
-  //           {
-  //             series: 'Secret Wars (1984)',
-  //             number: '11',
-  //           },
-  //           {
-  //             series: 'Secret Wars (1984)',
-  //             number: '12',
-  //           },
-  //           {
-  //             series: 'Amazing Spider-Man',
-  //             number: '252',
-  //           },
-  //           {
-  //             series: 'Avengers',
-  //             number: '243',
-  //           },
-  //           {
-  //             series: 'Fantastic Four',
-  //             number: '265',
-  //           },
-  //           {
-  //             series: 'Incredible Hulk',
-  //             number: '295',
-  //           },
-  //           {
-  //             series: 'Uncanny X-Men',
-  //             number: '181',
-  //           },
-  //           {
-  //             series: 'The Thing',
-  //             number: '11',
-  //           },
-  //         ],
-  //       },
-
-  //       {
-  //         id: 'civil-war',
-  //         name: 'Civil War',
-  //         description: 'Ordre de lecture Civil War',
-  //         entries: [
-  //           {
-  //             series: '',
-  //             number: '',
-  //           },
-  //         ],
-  //       },
-  //     ],
-  //   }
-  // },
-
   data() {
     return {
-      selectedTimeline: null,
-
       timelines: [
         {
           id: 'secret-wars-1984',
-          name: 'Secret Wars',
+          name: 'Secret Wars 1984',
           description: 'Ordre de lecture Secret Wars 1984',
-          // image: '/reading-guides/secret-wars.jpg',
+          image: '/img/reading-guide/secret-wars1984.png',
           entries: [
+            {
+              series: 'Amazing Spider-Man',
+              number: '251',
+            },
+            {
+              series: 'Avengers',
+              number: '242',
+            },
+            {
+              series: 'Incredible Hulk',
+              number: '294',
+            },
+            {
+              series: 'Uncanny X-Men',
+              number: '180',
+            },
+            {
+              series: 'The Thing',
+              number: '10',
+            },
+            {
+              series: 'Secret Wars (1984)',
+              number: '1',
+            },
+            {
+              series: 'Secret Wars (1984)',
+              number: '2',
+            },
+            {
+              series: 'Secret Wars (1984)',
+              number: '3',
+            },
+            {
+              series: 'Secret Wars (1984)',
+              number: '4',
+            },
+            {
+              series: 'Secret Wars (1984)',
+              number: '5',
+            },
+            {
+              series: 'Secret Wars (1984)',
+              number: '6',
+            },
+            {
+              series: 'Secret Wars (1984)',
+              number: '7',
+            },
+            {
+              series: 'Secret Wars (1984)',
+              number: '8',
+            },
+            {
+              series: 'Secret Wars (1984)',
+              number: '9',
+            },
+            {
+              series: 'Secret Wars (1984)',
+              number: '10',
+            },
+            {
+              series: 'Secret Wars (1984)',
+              number: '11',
+            },
+            {
+              series: 'Secret Wars (1984)',
+              number: '12',
+            },
+            {
+              series: 'Amazing Spider-Man',
+              number: '252',
+            },
+            {
+              series: 'Avengers',
+              number: '243',
+            },
             {
               series: 'Fantastic Four',
               number: '265',
             },
             {
-              series: 'Secret Wars',
-              number: '1',
+              series: 'Incredible Hulk',
+              number: '295',
+            },
+            {
+              series: 'Uncanny X-Men',
+              number: '181',
+            },
+            {
+              series: 'The Thing',
+              number: '11',
             },
           ],
         },
@@ -211,6 +175,19 @@ export default Vue.extend({
             },
           ],
         },
+
+        {
+          id: 'secret-wars',
+          name: 'Secrt Wars (2015)',
+          description : 'Ordre de lecture Secret Wars (2015)',
+          image: '/img/reading-guide/secret-wars2015.png',
+          entries: [
+            {
+              series: 'Secret Wars (2015)',
+              number: '1',
+            },
+          ],
+        }
       ],
     }
   },
@@ -231,6 +208,7 @@ export default Vue.extend({
 
   .timeline-image {
     background: #000;
+    width: 100%;
   }
 </style>
 
