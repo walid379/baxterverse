@@ -203,7 +203,7 @@ export default Vue.extend({
           id: 'civil-war',
           name: 'Civil War',
           description: 'Ordre de lecture Civil War',
-          image: '/reading-guide/civil-war.png',
+          image: '/img/reading-guide/civil-war.png',
           entries: [
             {
               series: 'Civil War',
