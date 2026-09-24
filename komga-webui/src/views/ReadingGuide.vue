@@ -36,7 +36,7 @@
           <v-img
             :src="timeline.image"
             height="200"
-            contain
+            cover
             class="timeline-image"
           />
 
@@ -207,8 +207,8 @@ export default Vue.extend({
   }
 
   .timeline-image {
-    background: #000;
     width: 100%;
+    background: #000;
   }
 </style>
 
