@@ -323,12 +323,7 @@ export default Vue.extend({
               ...entry,
               book,
             })
-          } catch (error) {
-            console.error(
-              `Erreur pour ${entry.series} #${entry.number}`,
-              error,
-            )
-
+          } catch {
             results.push({...entry})
           }
         }
