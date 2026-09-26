@@ -194,12 +194,12 @@ export default Vue.extend({
         {
           id: 'secret-wars-1984',
           name: 'Secret Wars 1984',
-          description: 'Ordre de lecture Secret Wars 1984',
+          description: 'Les issues situées avant et après l\'événement ne sont pas indispensables, mais elles permettent de mieux comprendre le contexte et de savoir à quel moment entrer dans Secret Wars (1984)',
           image: '/img/reading-guide/secret-wars1984.png',
           entries: [
             { series: 'Amazing Spider-Man', number: '251'},
             { series: 'Avengers', number: '242'},
-            { series: 'Incredible Hulk', number: '294'},
+            { series: 'Incredible Hulk (1968)', number: '294'},
             { series: 'Uncanny X-Men', number: '180'},
             { series: 'The Thing', number: '10'},
 
@@ -219,7 +219,7 @@ export default Vue.extend({
             { series: 'Amazing Spider-Man', number: '252'},
             { series: 'Avengers', number: '243'},
             { series: 'Fantastic Four', number: '265'},
-            { series: 'Incredible Hulk', number: '295'},
+            { series: 'Incredible Hulk (1968)', number: '295'},
             { series: 'Uncanny X-Men', number: '181'},
             { series: 'The Thing', number: '11'},
           ],
@@ -227,7 +227,7 @@ export default Vue.extend({
         {
           id: 'civil-war',
           name: 'Civil War',
-          description: 'Ordre de lecture Civil War',
+          description: 'Les issues Civil War #1 à #7 sont obligatoires, tandis que les tie-ins comme Amazing Spider-Man, Fantastic Four, Captain America et Front Line sont facultatifs mais très utiles pour suivre les choix des personnages et mieux comprendre les conséquences du conflit.',
           image: '/img/reading-guide/civil-war.png',
           entries: [
             { series: 'Amazing Spider-Man', number: '529' },
@@ -290,7 +290,7 @@ export default Vue.extend({
         {
           id: 'secret-wars',
           name: 'Secret Wars (2015)',
-          description: 'Ordre de lecture Secret Wars (2015)',
+          description: 'Les issues Secret Wars #1 à #9 sont obligatoires, tandis que Time Runs Out (Avengers/New Avengers) et le FCBD #0 sont facultatifs mais fortement recommandés pour comprendre les Incursions, les Illuminati et la fin du Multivers.',
           image: '/img/reading-guide/secret-wars2015.png',
           entries: [
             { series: 'Avengers', number: '35' },
@@ -339,7 +339,7 @@ export default Vue.extend({
         {
           id: 'world-war-hulk',
           name: 'World War Hulk',
-          description: 'Ordre de lecture World War Hulk',
+          description: 'Les issues World War Hulk #1 à #5 sont obligatoires, tandis que Planet Hulk, les numéros d’Incredible Hulk, Front Line, X-Men, Gamma Corps et les autres tie-ins sont facultatifs mais apportent le contexte, les conséquences et les différents fronts du conflit.',
           image: '/img/reading-guide/world-war-hulk.png',
           entries: [
             { series: 'Incredible Hulk', number: '92' },
@@ -405,6 +405,83 @@ export default Vue.extend({
             { series: 'World War Hulk: Front Line', number: '6' },
 
             { series: 'World War Hulk: Aftersmash', number: '1' },
+          ],
+        },
+        {
+          id: 'house-of-m',
+          name: 'House of M',
+          description: 'Les issues House of M #1 à #8 sont obligatoires, tandis que les tie-ins comme Spider-Man, Fantastic Four, Iron Man, Hulk ou X-Men restent facultatifs mais enrichissent fortement l’événement en montrant comment cette nouvelle réalité affecte chaque héros.',
+          image: '/img/reading-guide/house-of-m.png',
+          entries: [
+            { series: 'Avengers', number: '500' },
+            { series: 'Avengers', number: '501' },
+            { series: 'Avengers', number: '502' },
+            { series: 'Avengers', number: '503' },
+            { series: 'Avengers Finale', number: '1' },
+
+            { series: 'Excalibur', number: '13' },
+            { series: 'Excalibur', number: '14' },
+
+            { series: 'House of M', number: '1' },
+            { series: 'House of M', number: '2' },
+
+            { series: 'Fantastic Four: House of M', number: '1' },
+            { series: 'Spider-Man: House of M', number: '1' },
+            { series: 'Iron Man: House of M', number: '1' },
+
+            { series: 'House of M', number: '3' },
+
+            { series: 'Incredible Hulk', number: '83' },
+            { series: 'Uncanny X-Men', number: '462' },
+            { series: 'Mutopia X', number: '1' },
+            { series: 'Spider-Man: House of M', number: '2' },
+
+            { series: 'House of M', number: '4' },
+
+            { series: 'Cable & Deadpool', number: '17' },
+            { series: 'Incredible Hulk', number: '84' },
+            { series: 'The Pulse', number: '10' },
+            { series: 'New X-Men', number: '16' },
+            { series: 'Fantastic Four: House of M', number: '2' },
+            { series: 'Iron Man: House of M', number: '2' },
+            { series: 'Uncanny X-Men', number: '463' },
+
+            { series: 'House of M', number: '5' },
+
+            { series: 'New Thunderbolts', number: '11' },
+            { series: 'Incredible Hulk', number: '85' },
+            { series: 'Mutopia X', number: '2' },
+            { series: 'Spider-Man: House of M', number: '3' },
+            { series: 'Black Panther', number: '7' },
+            { series: 'New X-Men', number: '17' },
+            { series: 'Fantastic Four: House of M', number: '3' },
+            { series: 'Iron Man: House of M', number: '3' },
+            { series: 'Exiles', number: '69' },
+            { series: 'Incredible Hulk', number: '86' },
+            { series: 'Uncanny X-Men', number: '464' },
+            { series: 'Mutopia X', number: '3' },
+            { series: 'Captain America', number: '10' },
+            { series: 'Exiles', number: '70' },
+            { series: 'Spider-Man: House of M', number: '4' },
+            { series: 'New X-Men', number: '18' },
+            { series: 'Wolverine', number: '33' },
+            { series: 'Uncanny X-Men', number: '465' },
+
+            { series: 'House of M', number: '6' },
+
+            { series: 'Mutopia X', number: '4' },
+
+            { series: 'House of M', number: '7' },
+
+            { series: 'Wolverine', number: '34' },
+            { series: 'Exiles', number: '71' },
+            { series: 'New X-Men', number: '19' },
+            { series: 'Wolverine', number: '35' },
+            { series: 'Spider-Man: House of M', number: '5' },
+
+            { series: 'House of M', number: '8' },
+
+            { series: 'Giant-Size Ms. Marvel', number: '1' }
           ],
         },
       ] as ReadingGuideTimeline[],
