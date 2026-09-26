@@ -20,6 +20,7 @@ export const persistedModule: Module<any, any> = {
       alwaysFullscreen: false,
       animations: true,
       background: '',
+      zoom: 100,
     },
     epubreader: {},
     browsingPageSize: undefined as unknown as number,
@@ -174,6 +175,9 @@ export const persistedModule: Module<any, any> = {
     },
     setRememberMe(state, val) {
       state.rememberMe = val
+    },
+    setWebreaderZoom(state, val) {
+      state.webreader.zoom = val
     },
   },
 }

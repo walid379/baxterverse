@@ -154,23 +154,54 @@ export default Vue.extend({
       return page == 0 || this.seen[page] || Math.abs((this.currentPage - 1) - page) <= 2
     },
     calcHeight(page: PageDtoWithUrl): number | undefined {
+      const zoomFactor = this.zoom / 100
+
       switch (this.scale) {
         case ContinuousScaleType.WIDTH:
-          if (page.height && page.width)
-            return page.height / (page.width / (this.$vuetify.breakpoint.width - (this.$vuetify.breakpoint.width * this.totalSidePadding) / 100))
+          if (page.height && page.width) {
+            const baseWidth =
+              this.$vuetify.breakpoint.width -
+              (
+                this.$vuetify.breakpoint.width *
+                this.totalSidePadding
+              ) / 100
+
+            const width = baseWidth * zoomFactor
+
+            return page.height / (page.width / width)
+          }
+
           return undefined
+
         case ContinuousScaleType.ORIGINAL:
-          return page.height || undefined
+          return page.height
+            ? page.height * zoomFactor
+            : undefined
+
         default:
           return undefined
       }
     },
     calcWidth(page: PageDtoWithUrl): number | undefined {
+      const zoomFactor = this.zoom / 100
+
       switch (this.scale) {
         case ContinuousScaleType.WIDTH:
-          return this.$vuetify.breakpoint.width - (this.$vuetify.breakpoint.width * this.totalSidePadding) / 100
+          return (
+            (
+              this.$vuetify.breakpoint.width -
+              (
+                this.$vuetify.breakpoint.width *
+                this.totalSidePadding
+              ) / 100
+            ) * zoomFactor
+          )
+
         case ContinuousScaleType.ORIGINAL:
-          return page.width || undefined
+          return page.width
+            ? page.width * zoomFactor
+            : undefined
+
         default:
           return undefined
       }

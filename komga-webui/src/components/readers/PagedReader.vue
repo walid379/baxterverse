@@ -27,12 +27,14 @@
       >
         <div class="full-height d-flex flex-column justify-center">
           <div :class="`d-flex flex-row${flipDirection ? '-reverse' : ''} justify-center px-0 mx-0`">
-            <img v-for="(page, j) in spread"
-                 :alt="`Page ${page.number}`"
-                 :key="`spread${i}-${j}`"
-                 :src="page.url"
-                 :class="imgClass(spread)"
-                 class="img-fit-all"
+            <img
+              v-for="(page, j) in spread"
+              :alt="`Page ${page.number}`"
+              :key="`spread${i}-${j}`"
+              :src="page.url"
+              :class="imgClass(spread)"
+              :style="imageZoomStyle(spread)"
+              class="img-fit-all"
             />
           </div>
         </div>
@@ -119,6 +121,10 @@ export default Vue.extend({
     },
     scale: {
       type: String as () => ScaleType,
+      required: true,
+    },
+    zoom: {
+      type: Number,
       required: true,
     },
   },
@@ -272,6 +278,39 @@ export default Vue.extend({
         }
       }
       return i - 1
+    },
+    imageZoomStyle(spread: PageDtoWithUrl[]): object {
+      const factor = this.zoom / 100
+      const double = spread.length > 1
+
+      switch (this.scale) {
+        case ScaleType.WIDTH:
+        case ScaleType.WIDTH_SHRINK_ONLY:
+          return {
+            width: `${(double ? 50 : 100) * factor}vw`,
+            maxWidth: 'none',
+          }
+
+        case ScaleType.HEIGHT:
+          return {
+            height: `${100 * factor}vh`,
+            maxHeight: 'none',
+          }
+
+        case ScaleType.SCREEN:
+          return {
+            width: `${(double ? 50 : 100) * factor}vw`,
+            height: `${100 * factor}vh`,
+            maxWidth: 'none',
+            maxHeight: 'none',
+          }
+
+        default:
+          return {
+            transform: `scale(${factor})`,
+            transformOrigin: 'center center',
+          }
+      }
     },
   },
 })

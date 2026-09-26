@@ -130,10 +130,11 @@
         :scale="continuousScale"
         :sidePadding="sidePadding"
         :page-margin="pageMargin"
+        :zoom="zoom"
         @menu="toggleToolbars()"
         @jump-previous="jumpToPrevious()"
         @jump-next="jumpToNext()"
-      ></continuous-reader>
+      /></continuous-reader>
 
       <paged-reader
         v-else
@@ -142,12 +143,13 @@
         :reading-direction="readingDirection"
         :page-layout="pageLayout"
         :scale="scale"
+        :zoom="zoom"
         :animations="animations"
         :swipe="swipe"
         @menu="toggleToolbars()"
         @jump-previous="jumpToPrevious()"
         @jump-next="jumpToNext()"
-      ></paged-reader>
+      /></paged-reader>
     </div>
 
     <thumbnail-explorer-dialog
@@ -198,6 +200,37 @@
             </v-list-item>
 
             <v-subheader class="font-weight-black text-h6">{{ $t('bookreader.settings.display') }}</v-subheader>
+            <v-list-item>
+              <v-list-item-content>
+                <div class="d-flex align-center">
+                  <v-icon class="mr-3">
+                    mdi-magnify-minus-outline
+                  </v-icon>
+
+                  <v-slider
+                    v-model="zoom"
+                    min="50"
+                    max="200"
+                    step="5"
+                    thumb-label
+                    hide-details
+                    class="flex-grow-1"
+                  >
+                    <template v-slot:thumb-label="{ value }">
+                      {{ value }}%
+                    </template>
+                  </v-slider>
+
+                  <v-icon class="ml-3">
+                    mdi-magnify-plus-outline
+                  </v-icon>
+                </div>
+
+                <div class="text-caption text-center mt-2">
+                  Zoom : {{ zoom }} %
+                </div>
+              </v-list-item-content>
+            </v-list-item>
             <v-list-item>
               <settings-select
                 :items="backgroundColors"
@@ -396,6 +429,7 @@ export default Vue.extend({
         continuousScale: ContinuousScaleType.WIDTH,
         sidePadding: 0,
         pageMargin: 0,
+        zoom: 100,
         readingDirection: ReadingDirection.LEFT_TO_RIGHT,
         backgroundColor: 'black',
       },
@@ -466,6 +500,7 @@ export default Vue.extend({
     this.sidePadding = this.$store.state.persistedState.webreader.continuous.padding
     this.pageMargin = this.$store.state.persistedState.webreader.continuous.margin
     this.backgroundColor = this.$store.state.persistedState.webreader.background
+    this.zoom = this.$store.state.persistedState.webreader.zoom || 100
 
     this.setup(this.bookId, Number(this.$route.query.page))
   },
@@ -661,6 +696,16 @@ export default Vue.extend({
         this.$store.commit('setWebreaderAlwaysFullscreen', alwaysFullscreen)
         if (alwaysFullscreen) this.enterFullscreen()
         else screenfull.isEnabled && screenfull.exit()
+      },
+    },
+    zoom: {
+      get: function (): number {
+        return this.settings.zoom
+      },
+
+      set: function (zoom: number): void {
+        this.settings.zoom = zoom
+        this.$store.commit('setWebreaderZoom', zoom)
       },
     },
   },
