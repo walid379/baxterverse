@@ -7,11 +7,14 @@ import {
   UserCreationDto,
   UserDto,
   UserUpdateDto,
+  RegistrationDto,
 } from '@/types/komga-users'
 
 const qs = require('qs')
 
 const API_USERS = '/api/v2/users'
+
+const API_REGISTER = '/api/v1/register'
 
 export default class KomgaUsersService {
   private http: AxiosInstance
@@ -212,6 +215,24 @@ export default class KomgaUsersService {
       if (e.response.data.message) {
         msg += `: ${e.response.data.message}`
       }
+      throw new Error(msg)
+    }
+  }
+
+  async register(registration: RegistrationDto): Promise<UserDto> {
+    try {
+      return (
+        await this.http.post(API_REGISTER, registration)
+      ).data
+    } catch (e) {
+      let msg = 'Impossible de créer le compte'
+
+      if (e.response?.status === 409) {
+        msg = e.response?.data?.message || 'Ce compte existe déjà'
+      } else if (e.response?.data?.message) {
+        msg = e.response.data.message
+      }
+
       throw new Error(msg)
     }
   }

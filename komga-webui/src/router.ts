@@ -285,6 +285,14 @@ const router = new Router({
       component: () => import(/* webpackChunkName: "login" */ './views/LoginView.vue'),
     },
     {
+      path: '/register',
+      name: 'register',
+      component: () => import(
+        /* webpackChunkName: "register" */
+        './views/RegisterView.vue'
+      ),
+    },
+    {
       path: '/book/:bookId/read',
       name: 'read-book',
       component: () => import(/* webpackChunkName: "read-book" */ './views/DivinaReader.vue'),
@@ -336,7 +344,7 @@ router.beforeEach((to, from, next) => {
     window.close()
   }
 
-  if (to.name !== 'startup' && to.name !== 'login' && !lStore.getters.authenticated) {
+  if (to.name !== 'startup' && to.name !== 'login' && to.name !== 'register' && !lStore.getters.authenticated) {
     const query = Object.assign({}, to.query, {redirect: to.fullPath})
     next({name: 'startup', query: query})
   } else next()

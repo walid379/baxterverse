@@ -59,11 +59,26 @@
           </v-row>
 
           <v-row>
-            <v-col cols="auto">
-              <v-btn color="primary"
-                     type="submit"
-                     :disabled="unclaimed"
-              >{{ $t('login.login') }}
+            <v-col cols="auto" class="d-flex">
+              <v-btn
+                color="primary"
+                type="submit"
+                :disabled="unclaimed"
+                class="mr-2"
+              >
+                {{ $t('login.login') }}
+              </v-btn>
+
+              <v-btn
+                color="primary"
+                :to="{ name: 'register' }"
+                :disabled="unclaimed"
+              >
+                <v-icon left>
+                  mdi-account-plus-outline
+                </v-icon>
+
+                Créer un compte
               </v-btn>
             </v-col>
             <v-col cols="auto">

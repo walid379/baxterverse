@@ -62,3 +62,8 @@ export interface ApiKeyDto {
 export interface ApiKeyRequestDto {
   comment: string,
 }
+
+export interface RegistrationDto {
+  email: string,
+  password: string,
+}
