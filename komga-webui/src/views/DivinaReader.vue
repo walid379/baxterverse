@@ -134,7 +134,7 @@
         @menu="toggleToolbars()"
         @jump-previous="jumpToPrevious()"
         @jump-next="jumpToNext()"
-      /></continuous-reader>
+      ></continuous-reader>
 
       <paged-reader
         v-else
@@ -149,7 +149,7 @@
         @menu="toggleToolbars()"
         @jump-previous="jumpToPrevious()"
         @jump-next="jumpToNext()"
-      /></paged-reader>
+      ></paged-reader>
     </div>
 
     <thumbnail-explorer-dialog
