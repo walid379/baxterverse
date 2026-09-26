@@ -481,7 +481,7 @@ export default Vue.extend({
 
             { series: 'House of M', number: '8' },
 
-            { series: 'Giant-Size Ms. Marvel', number: '1' }
+            { series: 'Giant-Size Ms. Marvel', number: '1' },
           ],
         },
       ] as ReadingGuideTimeline[],
