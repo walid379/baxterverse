@@ -1,5 +1,5 @@
 <template>
-  <v-container class="ma-0 pa-0 full-height" fluid v-if="pages.length > 0"
+  <v-container class="ma-0 pa-0 full-height reader-shell" fluid v-if="pages.length > 0"
                :style="`width: 100%; background-color: ${backgroundColor}`"
   >
     <div>
@@ -979,8 +979,19 @@ export default Vue.extend({
 })
 </script>
 <style scoped>
+.reader-shell {
+  width: 100vw !important;
+  max-width: 100vw !important;
+  min-width: 0;
+  overflow-x: hidden;
+}
+
 .settings {
-  z-index: 2;
+  z-index: 20;
+  left: 0;
+  right: 0;
+  width: 100vw !important;
+  max-width: 100vw !important;
 }
 
 .full-height {
@@ -997,7 +1008,20 @@ export default Vue.extend({
 }
 
 .html-reader {
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
   scrollbar-width: none;
   overscroll-behavior: none;
+}
+
+.html-reader body,
+.html-reader #app,
+.html-reader .v-application,
+.html-reader .v-application--wrap {
+  width: 100%;
+  max-width: 100vw;
+  min-width: 0;
+  overflow-x: hidden;
 }
 </style>
