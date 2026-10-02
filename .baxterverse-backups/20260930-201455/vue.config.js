@@ -2,7 +2,7 @@
 module.exports = {
   // with './' the dev server cannot load any arbitrary path
   // with '/' the prod build generates some url(/fonts…) calls in the css chunks, which doesn't work with a servlet context path
-  publicPath: process.env.NODE_ENV === 'production' ? (process.env.VUE_APP_STANDALONE === 'true' ? '/' : './') : '/',
+  publicPath: process.env.NODE_ENV === 'production' ? './' : '/',
 
   pluginOptions: {
     i18n: {

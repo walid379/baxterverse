@@ -1,0 +1,33 @@
+# Caddy sert uniquement sur le loopback. HTTPS est assuré par Tailscale Serve ou Funnel.
+# Les fichiers sont placés dans C:/BaxterVerse sur le serveur Windows.
+:8088 {
+  bind 127.0.0.1
+  encode zstd gzip
+
+  # Configuration éditable à chaud, indépendante du build et du JAR.
+  handle /reading-guides.json {
+    root * C:/BaxterVerse/config
+    header Cache-Control "no-store, max-age=0"
+    file_server
+  }
+
+  # Couvertures de guides modifiables sans compilation.
+  handle /guide-images/* {
+    root * C:/BaxterVerse/config
+    header Cache-Control "no-store, max-age=0"
+    file_server
+  }
+
+  # L'API, les flux et l'authentification restent pris en charge par Komga.
+  @backend path /api /api/* /actuator /actuator/* /opds /opds/* /koreader /koreader/* /oauth2 /oauth2/* /login/oauth2/* /sse /sse/* /swagger-ui /swagger-ui/* /v3/api-docs /v3/api-docs/*
+  handle @backend {
+    reverse_proxy 127.0.0.1:25600
+  }
+
+  # Fichiers statiques Vue + retour index.html pour les URL /reading-guide/:id.
+  handle {
+    root * C:/BaxterVerse/webui
+    try_files {path} /index.html
+    file_server
+  }
+}

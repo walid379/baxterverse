@@ -2,16 +2,22 @@
 
   <div
     class="paged-reader-root"
+    :class="{ 'paged-reader-root-zoomed': zoom > 100 }"
+    @pointerdown="touchPointerDown"
+    @pointermove="touchPointerMove"
+    @pointerup="touchPointerUp"
+    @pointercancel="touchPointerUp"
+    @wheel="handleZoomWheel"
 
     v-touch="{
 
-      left: () => {if(swipe && zoom <= 100) {turnRight()}},
+      left: () => {if(swipe && zoom <= 100 && !touchGesture.suppressNavigation) {turnRight()}},
 
-      right: () => {if(swipe && zoom <= 100) {turnLeft()}},
+      right: () => {if(swipe && zoom <= 100 && !touchGesture.suppressNavigation) {turnLeft()}},
 
-      up: () => {if(swipe && zoom <= 100) {verticalNext()}},
+      up: () => {if(swipe && zoom <= 100 && !touchGesture.suppressNavigation) {verticalNext()}},
 
-      down: () => {if(swipe && zoom <= 100) {verticalPrev()}}
+      down: () => {if(swipe && zoom <= 100 && !touchGesture.suppressNavigation) {verticalPrev()}}
 
     }"
 
@@ -123,7 +129,7 @@
 
     <div v-if="zoom <= 100 && !vertical"
 
-         @click="turnLeft()"
+         @click="!touchGesture.suppressNavigation && turnLeft()"
 
          class="left-quarter"
 
@@ -135,7 +141,7 @@
 
     <div v-if="zoom <= 100 && !vertical"
 
-         @click="turnRight()"
+         @click="!touchGesture.suppressNavigation && turnRight()"
 
          class="right-quarter"
 
@@ -147,7 +153,7 @@
 
     <div v-if="zoom <= 100 && vertical"
 
-         @click="verticalPrev()"
+         @click="!touchGesture.suppressNavigation && verticalPrev()"
 
          class="top-quarter"
 
@@ -159,7 +165,7 @@
 
     <div v-if="zoom <= 100 && vertical"
 
-         @click="verticalNext()"
+         @click="!touchGesture.suppressNavigation && verticalNext()"
 
          class="bottom-quarter"
 
@@ -171,7 +177,7 @@
 
     <div v-if="zoom <= 100"
 
-         @click="centerClick()"
+         @click="!touchGesture.suppressNavigation && centerClick()"
 
          :class="`${vertical ? 'center-vertical' : 'center-horizontal'}`"
 
@@ -220,6 +226,26 @@ export default Vue.extend({
         startY: 0,
         scrollLeft: 0,
         scrollTop: 0,
+      },
+
+      touchPointers: {} as {[key: number]: {x: number, y: number}},
+      pinch: {
+        active: false,
+        startDistance: 0,
+        startZoom: 100,
+        lastZoom: 100,
+      },
+      touchPan: {
+        active: false,
+        pointerId: -1,
+        startX: 0,
+        startY: 0,
+        scrollLeft: 0,
+        scrollTop: 0,
+      },
+      touchGesture: {
+        moved: false,
+        suppressNavigation: false,
       },
 
     }
@@ -360,9 +386,11 @@ export default Vue.extend({
 
     },
 
-    zoom() {
+    zoom(val: number, old: number) {
 
-      this.centerViewport()
+      if (val <= 100 && old > 100) {
+        this.resetViewport()
+      }
 
     },
 
@@ -458,6 +486,232 @@ export default Vue.extend({
 
   methods: {
 
+    getCurrentViewport(): HTMLElement | undefined {
+      const refs = this.$refs.panViewports as HTMLElement[] | HTMLElement | undefined
+      if (!refs) return undefined
+
+      const viewports = Array.isArray(refs) ? refs : [refs]
+      return viewports[this.carouselPage]
+    },
+
+    getTouchPoints(): Array<{x: number, y: number}> {
+      return Object.keys(this.touchPointers)
+        .map(id => this.touchPointers[Number(id)])
+        .filter(Boolean)
+    },
+
+    distance(a: {x: number, y: number}, b: {x: number, y: number}): number {
+      return Math.hypot(b.x - a.x, b.y - a.y)
+    },
+
+    clampZoom(value: number): number {
+      return Math.min(300, Math.max(100, Math.round(value)))
+    },
+
+    applyZoomAtPoint(
+      targetZoom: number,
+      clientX: number,
+      clientY: number,
+      previousZoom: number = this.zoom,
+    ) {
+      const viewport = this.getCurrentViewport()
+      if (!viewport) return
+
+      const nextZoom = this.clampZoom(targetZoom)
+      const oldZoom = Math.max(100, previousZoom)
+
+      if (nextZoom === oldZoom) return
+
+      const rect = viewport.getBoundingClientRect()
+      const localX = clientX - rect.left
+      const localY = clientY - rect.top
+      const oldScrollLeft = viewport.scrollLeft
+      const oldScrollTop = viewport.scrollTop
+      const ratio = nextZoom / oldZoom
+
+      this.$emit('update:zoom', nextZoom)
+
+      this.$nextTick(() => {
+        viewport.scrollLeft = Math.max(
+          0,
+          (oldScrollLeft + localX) * ratio - localX,
+        )
+        viewport.scrollTop = Math.max(
+          0,
+          (oldScrollTop + localY) * ratio - localY,
+        )
+      })
+    },
+
+    touchPointerDown(e: PointerEvent) {
+      if (e.pointerType !== 'touch') return
+
+      const pointerCount = Object.keys(this.touchPointers).length
+      if (pointerCount === 0) {
+        this.touchGesture.moved = false
+        this.touchGesture.suppressNavigation = false
+      }
+
+      this.$set(this.touchPointers, e.pointerId, {
+        x: e.clientX,
+        y: e.clientY,
+      })
+
+      const root = e.currentTarget as HTMLElement
+      if (!root.hasPointerCapture(e.pointerId)) {
+        root.setPointerCapture(e.pointerId)
+      }
+
+      const points = this.getTouchPoints()
+
+      if (points.length >= 2) {
+        this.pinch.active = true
+        this.pinch.startDistance = this.distance(points[0], points[1])
+        this.pinch.startZoom = this.zoom
+        this.pinch.lastZoom = this.zoom
+        this.touchPan.active = false
+        this.touchGesture.moved = true
+        this.touchGesture.suppressNavigation = true
+        e.preventDefault()
+        return
+      }
+
+      if (this.zoom > 100) {
+        const viewport = this.getCurrentViewport()
+        if (!viewport) return
+
+        this.touchPan.active = true
+        this.touchPan.pointerId = e.pointerId
+        this.touchPan.startX = e.clientX
+        this.touchPan.startY = e.clientY
+        this.touchPan.scrollLeft = viewport.scrollLeft
+        this.touchPan.scrollTop = viewport.scrollTop
+      }
+    },
+
+    touchPointerMove(e: PointerEvent) {
+      if (e.pointerType !== 'touch' || !this.touchPointers[e.pointerId]) return
+
+      this.$set(this.touchPointers, e.pointerId, {
+        x: e.clientX,
+        y: e.clientY,
+      })
+
+      const points = this.getTouchPoints()
+
+      if (this.pinch.active && points.length >= 2) {
+        const currentDistance = this.distance(points[0], points[1])
+        if (this.pinch.startDistance <= 0) return
+
+        const midpointX = (points[0].x + points[1].x) / 2
+        const midpointY = (points[0].y + points[1].y) / 2
+        const targetZoom = this.clampZoom(
+          this.pinch.startZoom * (currentDistance / this.pinch.startDistance),
+        )
+
+        if (targetZoom !== this.pinch.lastZoom) {
+          this.applyZoomAtPoint(
+            targetZoom,
+            midpointX,
+            midpointY,
+            this.pinch.lastZoom,
+          )
+          this.pinch.lastZoom = targetZoom
+        }
+
+        this.touchGesture.moved = true
+        this.touchGesture.suppressNavigation = true
+        e.preventDefault()
+        return
+      }
+
+      if (
+        this.zoom > 100 &&
+        this.touchPan.active &&
+        e.pointerId === this.touchPan.pointerId
+      ) {
+        const viewport = this.getCurrentViewport()
+        if (!viewport) return
+
+        const deltaX = e.clientX - this.touchPan.startX
+        const deltaY = e.clientY - this.touchPan.startY
+
+        if (Math.abs(deltaX) > 3 || Math.abs(deltaY) > 3) {
+          this.touchGesture.moved = true
+          this.touchGesture.suppressNavigation = true
+        }
+
+        if (!this.touchGesture.moved) return
+
+        viewport.scrollLeft = this.touchPan.scrollLeft - deltaX
+        viewport.scrollTop = this.touchPan.scrollTop - deltaY
+        e.preventDefault()
+      }
+    },
+
+    touchPointerUp(e: PointerEvent) {
+      if (e.pointerType !== 'touch') return
+
+      const root = e.currentTarget as HTMLElement
+      if (root.hasPointerCapture(e.pointerId)) {
+        root.releasePointerCapture(e.pointerId)
+      }
+
+      this.$delete(this.touchPointers, e.pointerId)
+
+      const remainingIds = Object.keys(this.touchPointers).map(Number)
+
+      if (this.pinch.active && remainingIds.length < 2) {
+        this.pinch.active = false
+
+        if (remainingIds.length === 1 && this.zoom > 100) {
+          const pointerId = remainingIds[0]
+          const point = this.touchPointers[pointerId]
+          const viewport = this.getCurrentViewport()
+
+          if (point && viewport) {
+            this.touchPan.active = true
+            this.touchPan.pointerId = pointerId
+            this.touchPan.startX = point.x
+            this.touchPan.startY = point.y
+            this.touchPan.scrollLeft = viewport.scrollLeft
+            this.touchPan.scrollTop = viewport.scrollTop
+          }
+        }
+      }
+
+      if (e.pointerId === this.touchPan.pointerId && remainingIds.length === 0) {
+        this.touchPan.active = false
+        this.touchPan.pointerId = -1
+      }
+
+      if (remainingIds.length === 0 && this.zoom <= 100) {
+        this.resetViewport()
+      }
+    },
+
+    handleZoomWheel(e: WheelEvent) {
+      if (!e.ctrlKey) return
+
+      e.preventDefault()
+
+      const delta = e.deltaY > 0 ? -10 : 10
+      this.applyZoomAtPoint(
+        this.zoom + delta,
+        e.clientX,
+        e.clientY,
+      )
+    },
+
+    resetViewport() {
+      this.$nextTick(() => {
+        const viewport = this.getCurrentViewport()
+        if (!viewport) return
+        viewport.scrollLeft = 0
+        viewport.scrollTop = 0
+      })
+    },
+
     startMousePan(e: PointerEvent) {
       if (this.zoom <= 100 || e.pointerType !== 'mouse' || e.button !== 0) return
 
@@ -512,8 +766,13 @@ export default Vue.extend({
     zoomedClick() {
       if (this.zoom <= 100) return
 
-      if (this.mousePan.moved) {
+      if (
+        this.mousePan.moved ||
+        this.touchGesture.moved ||
+        this.touchGesture.suppressNavigation
+      ) {
         this.mousePan.moved = false
+        this.touchGesture.moved = false
         return
       }
 
@@ -522,11 +781,7 @@ export default Vue.extend({
 
     centerViewport() {
       this.$nextTick(() => {
-        const refs = this.$refs.panViewports as HTMLElement[] | HTMLElement | undefined
-        if (!refs) return
-
-        const viewports = Array.isArray(refs) ? refs : [refs]
-        const viewport = viewports[this.carouselPage]
+        const viewport = this.getCurrentViewport()
         if (!viewport) return
 
         if (this.zoom <= 100) {
@@ -766,6 +1021,8 @@ export default Vue.extend({
   height: 100vh;
   max-height: 100vh;
   overflow: hidden;
+  touch-action: none;
+  overscroll-behavior: contain;
 }
 
 .page-viewport {
@@ -780,7 +1037,7 @@ export default Vue.extend({
 .page-viewport-zoomed {
   overflow: auto;
   cursor: grab;
-  touch-action: pan-x pan-y;
+  touch-action: none;
   overscroll-behavior: contain;
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;

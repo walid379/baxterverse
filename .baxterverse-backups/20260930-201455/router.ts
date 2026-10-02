@@ -268,7 +268,7 @@ const router = new Router({
           component: () => import(/* webpackChunkName: "import-readlist" */ './views/ImportReadList.vue'),
         },
         {
-          path: '/reading-guide/:guideId?',
+          path: '/reading-guide',
           name: 'readinguide',
           component: () => import('./views/ReadingGuide.vue'),
         },
